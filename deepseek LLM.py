@@ -28,10 +28,6 @@ def clean_output(text):
 
     return text.strip()
 
-
-# ----------------------------------
-# Streamlit UI Setup
-# ----------------------------------
 st.set_page_config(page_title="DeepSeek QA System", layout="centered")
 st.title("🧠 DeepSeek Descriptive QA System (Ollama)")
 
@@ -46,15 +42,9 @@ with st.expander("📘 Instructions", expanded=False):
       ```
     """)
 
-# ----------------------------------
-# Prompt Style Selection
-# ----------------------------------
 style = st.selectbox("Select Prompt Style", ["Descriptive", "Concise", "Story-like"])
 question = st.text_input("Ask your question", placeholder="e.g., What is Artificial Intelligence?")
 
-# ----------------------------------
-# Format Prompt
-# ----------------------------------
 def format_prompt(q, style):
     if style == "Descriptive":
         return f"Please provide a detailed and informative explanation for the following:\n{q}"
@@ -63,9 +53,7 @@ def format_prompt(q, style):
     elif style == "Story-like":
         return f"Explain this with a short story or real-life example:\n{q}"
 
-# ----------------------------------
-# Get DeepSeek R1 Response via Ollama
-# ----------------------------------
+
 def get_deepseek_response(prompt):
     try:
         response = ollama.chat(
@@ -76,9 +64,7 @@ def get_deepseek_response(prompt):
     except Exception as e:
         return f"⚠️ Error: {e}"
 
-# ----------------------------------
-# Generate Answer
-# ----------------------------------
+
 if st.button("Generate Answer") and question:
     with st.spinner("Generating response from DeepSeek R1..."):
         final_prompt = format_prompt(question, style)
@@ -92,9 +78,7 @@ if st.button("Generate Answer") and question:
         st.markdown("### 📌 Prompt Used")
         st.code(final_prompt)
 
-# ----------------------------------
-# Save Q&A History for Manual Comparison
-# ----------------------------------
+
 st.markdown("---")
 st.markdown("## 🔍 Compare with ChatGPT / Gemini Manually")
 
